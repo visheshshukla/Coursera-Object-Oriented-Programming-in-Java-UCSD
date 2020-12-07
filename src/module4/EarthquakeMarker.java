@@ -7,7 +7,7 @@ import processing.core.PGraphics;
 /** Implements a visual marker for earthquakes on an earthquake map
  * 
  * @author UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
+ * @author Vishesh Shukla
  *
  */
 public abstract class EarthquakeMarker extends SimplePointMarker
@@ -67,11 +67,20 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		// call abstract method implemented in child class to draw marker shape
 		drawEarthquake(pg, x, y);
 		
-		// OPTIONAL TODO: draw X over marker if within past day		
+		// OPTIONAL TODO: draw X over marker if within past day	
+		
+		if(getProperty("age").toString().equals("Past Day")){
+			drawX(pg,x,y);
+		}
 		
 		// reset to previous styling
 		pg.popStyle();
 		
+	}
+	
+	private void drawX(PGraphics pg, float x , float y){
+		pg.line(x-8,y-8,x+8,y+8);
+		pg.line(x-8,y+8,x+8,y-8);
 	}
 	
 	// determine color of marker from depth, and set pg's fill color 
@@ -81,6 +90,16 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// You might find the getters below helpful.
 	private void colorDetermine(PGraphics pg) {
 		//TODO: Implement this method
+		
+		float depth = getDepth();
+		if(depth<THRESHOLD_LIGHT){
+			pg.fill(255,255,0);
+		} else if (depth>=THRESHOLD_INTERMEDIATE && depth<THRESHOLD_DEEP){
+			pg.fill(0,0,255);
+		} else {
+			pg.fill(255,0,0);
+		}
+		
 	}
 	
 	
